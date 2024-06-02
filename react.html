@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モーダルウィンドウの例</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        class Modal extends React.Component {
+            render() {
+                const { showModal, onClose, children } = this.props;
+                return (
+                    <div className="modal" style={{ display: showModal ? 'block' : 'none' }}>
+                        <div className="modal-content">
+                            <span className="close" onClick={onClose}>&times;</span>
+                            <div>{children}</div>
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        class App extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    showModal: false,
+                    searchResults: [],
+                    selectedId: null
+                };
+            }
+
+            openModal = () => {
+                this.setState({ showModal: true });
+            };
+
+            closeModal = () => {
+                this.setState({ showModal: false });
+            };
+
+            search = (results) => {
+                this.setState({ searchResults: results, showModal: true });
+            };
+
+            selectRow = (id) => {
+                this.setState({ selectedId: id, showModal: false });
+            };
+
+            render() {
+                const { showModal, searchResults, selectedId } = this.state;
+                return (
+                    <div>
+                        <button onClick={this.openModal}>モーダルを開く</button>
+                        <p>選択結果：<span>{selectedId}</span></p>
+
+                        <Modal showModal={showModal} onClose={this.closeModal}>
+                            <div id="modal-body">
+                                <SearchForm onSearch={this.search} />
+                                <div id="searchResults">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>名前</th>
+                                                <th>日付</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {searchResults.map(result => (
+                                                <tr key={result.id} onClick={() => this.selectRow(result.id)}>
+                                                    <td>{result.id}</td>
+                                                    <td>{result.name}</td>
+                                                    <td>{result.date}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </Modal>
+                    </div>
+                );
+            }
+        }
+
+        class SearchForm extends React.Component {
+            search = () => {
+                const name = document.getElementById("name").value;
+                // サーバーに名前を送信して検索結果を取得する処理
+                const searchResults = [
+                    { id: 1, name: "山田太郎", date: "2024-05-30" },
+                    { id: 2, name: "田中花子", date: "2024-05-31" }
+                ];
+                this.props.onSearch(searchResults);
+            };
+
+            render() {
+                return (
+                    <div>
+                        <form onSubmit={e => { e.preventDefault(); this.search(); }}>
+                            <label htmlFor="name">名前:</label>
+                            <input type="text" id="name" name="name" />
+                            <button type="submit">検索</button>
+                        </form>
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(<App />, document.getElementById('app'));
+    </script>
+</body>
+</html>
