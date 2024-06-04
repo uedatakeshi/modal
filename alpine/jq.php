@@ -12,38 +12,8 @@
     <button id="openModalBtn">モーダルを開く1</button>
     <p>選択結果：<span id="result"></span></p>
 
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span id="closeModalBtn" class="close">&times;</span>
-        <div>
-          <form>
-            <label for="name">名前:</label>
-            <input type="text" id="name" name="name" />
-            <button type="button" onclick="search()">検索</button>
-          </form>
-          <div id="searchResults">
-            <!-- 検索結果の表がここに表示されます -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="modalSub" class="modal">
-      <div class="modal-content">
-        <span id="closeModalSubBtn" class="close">&times;</span>
-        <div>
-          <form>
-            <input type="hidden" id="company_id" name="company_id" value="" />
-            <label for="tel">TEL:</label>
-            <input type="text" id="tel" name="tel" />
-            <button type="button" onclick="searchSub()">検索</button>
-          </form>
-          <div id="searchSubResults">
-            <!-- 検索結果の表がここに表示されます -->
-          </div>
-        </div>
-      </div>
-    </div>
+    <?php include ("fetch_content.php"); ?>
+    <?php include ("fetch_content_sub.php"); ?>
 
     <script>
       $(document).ready(function () {
