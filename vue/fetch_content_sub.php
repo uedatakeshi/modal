@@ -1,6 +1,6 @@
-<div id="modalSub" class="modal" v-show="modalSubVisible">
+<div class="modal" v-show="showModalSub">
     <div class="modal-content">
-        <span id="closeModalSubBtn" class="close">&times;</span>
+        <span class="close" @click="closeModalSub">&times;</span>
         <div>
             <div>
                 <form>
@@ -10,7 +10,7 @@
                     <button type="button" onclick="searchSub()">検索</button>
                 </form>
             </div>
-            <div id="searchSubResults">
+            <div v-html="searchSubResults">
                 <!-- 検索結果の表がここに表示されます -->
             </div>
         </div>

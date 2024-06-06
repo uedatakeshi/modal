@@ -1,17 +1,17 @@
-<div id="modal" class="modal" v-show="modalVisible">
+<div class="modal" v-show="showModal">
     <div class="modal-content">
-        <span id="closeModalBtn" class="close">&times;</span>
+        <span class="close" @click="closeModal">&times;</span>
         <div>
             <div>
                 <form>
                     <label for="name">名前:</label>
                     <input type="text" id="name" name="name">
-                    <button type="button" onclick="search()">検索</button>
+                    <button type="button" @click="search">検索</button>
                 </form>
                 <!--<button id="openModalSubBtn">Subモーダルを開く</button>-->
 
             </div>
-            <div id="searchResults">
+            <div v-html="searchResults">
                 <!-- 検索結果の表がここに表示されます -->
             </div>
         </div>
